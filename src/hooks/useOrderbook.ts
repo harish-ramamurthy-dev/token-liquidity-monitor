@@ -36,7 +36,6 @@ export function useOrderbook(marketId: string) {
 
   // Reset state when market changes
   useEffect(() => {
-    console.log(`📖 Switching orderbook to ${marketId}`);
     setOrderbookData({
       bids: [],
       asks: [],
@@ -78,11 +77,9 @@ export function useOrderbook(marketId: string) {
 
   useEffect(() => {
     if (connectionStatus === 'connected') {
-      console.log(`📖 Subscribing to ${marketId} orderbook`);
       sendJsonMessage(createSubscription('l2Book', { coin: marketId }));
 
       return () => {
-        console.log(`📖 Unsubscribing from ${marketId} orderbook`);
         sendJsonMessage(createUnsubscription('l2Book', { coin: marketId }));
       };
     }

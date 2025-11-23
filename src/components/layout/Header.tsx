@@ -1,9 +1,11 @@
+import logoSvg from '../../assets/logo.svg';
+
 export function Header() {
   return (
     <header className="bg-dark-100 border-b border-gray-800 px-4 py-4">
       <div className="max-w-screen-2xl mx-auto flex items-center justify-center relative">
         <div className="flex items-center gap-3">
-          <img src="/logo.svg" alt="Logo" className="w-10 h-10" />
+          <img src={logoSvg} alt="Logo" className="w-10 h-10" />
           <h1 className="text-xl font-semibold text-white">
             Token Liquidity Monitor
           </h1>

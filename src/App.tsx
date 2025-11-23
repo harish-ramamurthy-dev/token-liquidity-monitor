@@ -26,7 +26,7 @@ function App() {
 
   return (
     <AppLayout selectedMarket={selectedMarket} onMarketChange={setSelectedMarket}>
-      <div className="max-w-screen-2xl mx-auto p-4 pb-8 h-full">
+      <div className="max-w-screen-2xl mx-auto p-4">
         <div className="space-y-4 mb-8">
           {/* Funding Rate Card */}
           <FundingRateCard
@@ -65,35 +65,44 @@ function App() {
             {/* Mobile Tab Content */}
             <div className="p-0">
               {mobileTab === 'chart' && (
-                <div className="space-y-4">
+                <div>
                   <CandleChart
                     candles={candles.candles}
                     volumes={candles.volumes}
                     isLoading={candles.isLoading}
                     marketId={selectedMarket}
                   />
+                  {/* Separator */}
+                  <div className="border-t border-gray-800 my-4"></div>
                   <div className="px-4 pb-4">
                     <LiquidityMetricsPanel depthLevels={depthLevels} slippage={slippage} />
                   </div>
                 </div>
               )}
               {mobileTab === 'orderbook' && (
-                <Orderbook
-                  bids={orderbook.bids}
-                  asks={orderbook.asks}
-                  spread={orderbook.spread}
-                  midPrice={orderbook.midPrice}
-                  isConnected={orderbook.isConnected}
-                  marketId={selectedMarket}
-                />
+                <div>
+                  <Orderbook
+                    bids={orderbook.bids}
+                    asks={orderbook.asks}
+                    spread={orderbook.spread}
+                    midPrice={orderbook.midPrice}
+                    isConnected={orderbook.isConnected}
+                    marketId={selectedMarket}
+                  />
+                  {/* Separator */}
+                  <div className="border-t border-gray-800 my-4"></div>
+                  <div className="px-4 pb-4">
+                    <LiquidityMetricsPanel depthLevels={depthLevels} slippage={slippage} />
+                  </div>
+                </div>
               )}
             </div>
           </div>
 
           {/* Desktop Grid: Chart + Orderbook */}
-          <div className="hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-4 min-w-0">
             {/* Chart Section - Takes 2 columns on large screens */}
-            <div className="lg:col-span-2 space-y-4">
+            <div className="lg:col-span-2 space-y-4 min-w-0">
               <CandleChart
                 candles={candles.candles}
                 volumes={candles.volumes}
@@ -106,17 +115,15 @@ function App() {
             </div>
 
             {/* Orderbook Section - Takes 1 column on large screens */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-4" style={{ maxHeight: 'calc(100vh - 200px)' }}>
-                <Orderbook
-                  bids={orderbook.bids}
-                  asks={orderbook.asks}
-                  spread={orderbook.spread}
-                  midPrice={orderbook.midPrice}
-                  isConnected={orderbook.isConnected}
-                  marketId={selectedMarket}
-                />
-              </div>
+            <div className="lg:col-span-1 min-w-0">
+              <Orderbook
+                bids={orderbook.bids}
+                asks={orderbook.asks}
+                spread={orderbook.spread}
+                midPrice={orderbook.midPrice}
+                isConnected={orderbook.isConnected}
+                marketId={selectedMarket}
+              />
             </div>
           </div>
         </div>

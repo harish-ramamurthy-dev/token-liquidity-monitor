@@ -19,7 +19,6 @@ export function useFundingRate(marketId: string) {
     let isMounted = true;
 
     // Reset state immediately when market changes
-    console.log(`💰 Switching funding rate to ${marketId}`);
     setData(null);
     setIsLoading(true);
     setError(null);
@@ -32,7 +31,6 @@ export function useFundingRate(marketId: string) {
         if (isMounted && result) {
           setData(result);
           setError(null);
-          console.log(`💰 Loaded funding rate for ${marketId}:`, result.fundingRate);
         }
       } catch (err) {
         if (isMounted) {

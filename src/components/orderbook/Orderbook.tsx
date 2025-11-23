@@ -18,7 +18,7 @@ export function Orderbook({ bids, asks, spread, midPrice, isConnected, marketId 
   const spreadBps = midPrice > 0 ? (spread / midPrice) * 10000 : 0;
 
   return (
-    <div className="bg-dark-100 rounded-lg p-4 h-full flex flex-col">
+    <div className="bg-dark-100 rounded-lg p-4 flex flex-col lg:h-[1038px] w-full">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
@@ -80,14 +80,14 @@ export function Orderbook({ bids, asks, spread, midPrice, isConnected, marketId 
       </div>
 
       {/* Desktop Stacked Layout */}
-      <div className="hidden lg:flex flex-col flex-1">
+      <div className="hidden lg:flex flex-col flex-1 min-h-0 overflow-hidden">
         {/* Asks (reversed to show best ask at bottom) */}
-        <div className="flex-1 overflow-hidden flex flex-col-reverse">
+        <div className="flex-1 flex flex-col-reverse min-h-0 overflow-hidden">
           <OrderbookSide side="ask" levels={asks} maxTotal={maxTotal} />
         </div>
 
         {/* Spread */}
-        <div className="my-2 py-2 border-y border-gray-800">
+        <div className="my-2 py-2 border-y border-gray-800 shrink-0">
           <div className="flex justify-between items-center text-sm px-2">
             <div className="text-gray-400">
               <span className="font-mono text-primary-400 font-semibold">
@@ -101,7 +101,7 @@ export function Orderbook({ bids, asks, spread, midPrice, isConnected, marketId 
         </div>
 
         {/* Bids */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-hidden">
           <OrderbookSide side="bid" levels={bids} maxTotal={maxTotal} />
         </div>
       </div>

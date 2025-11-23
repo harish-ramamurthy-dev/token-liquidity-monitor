@@ -41,7 +41,6 @@ export function useCandles(marketId: string, interval: string = '1h') {
       candleArray.forEach((rawCandle: Candle) => {
         if (rawCandle.s === marketId && rawCandle.i === interval) {
           const newCandle = parseCandle(rawCandle);
-          console.log(`🕯️ Live candle update for ${marketId}: ${newCandle.close}`);
           
           setCandles((prev) => {
             const existing = prev.findIndex((c) => c.time === newCandle.time);
@@ -82,7 +81,6 @@ export function useCandles(marketId: string, interval: string = '1h') {
   // Load historical candles
   useEffect(() => {
     // Reset state immediately when market changes
-    console.log(`📊 Switching chart to ${marketId}`);
     setCandles([]);
     setVolumes([]);
     setIsLoading(true);
@@ -98,7 +96,6 @@ export function useCandles(marketId: string, interval: string = '1h') {
           const parsedCandles = data.map(parseCandle);
           setCandles(parsedCandles);
           setVolumes(parsedCandles.map(candleToVolume));
-          console.log(`📊 Loaded ${parsedCandles.length} historical candles for ${marketId}`);
         }
       })
       .catch((error) => {
@@ -113,11 +110,9 @@ export function useCandles(marketId: string, interval: string = '1h') {
   // Subscribe to live candle updates
   useEffect(() => {
     if (connectionStatus === 'connected') {
-      console.log(`📊 Subscribing to ${marketId} candles (${interval})`);
       sendJsonMessage(createSubscription('candle', { coin: marketId, interval }));
 
       return () => {
-        console.log(`📊 Unsubscribing from ${marketId} candles`);
         sendJsonMessage(createUnsubscription('candle', { coin: marketId, interval }));
       };
     }

@@ -28,11 +28,11 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
       }
 
       setConnectionStatus('connecting');
-      console.log('🔌 Connecting to Hyperliquid WebSocket...');
+      console.log('Attempting to connect to Hyperliquid WebSocket...');
       const ws = new WebSocket(HYPERLIQUID_WS_URL);
 
       ws.onopen = () => {
-        console.log('✅ WebSocket connected');
+        console.log('WebSocket connected successfully to Hyperliquid');
         setConnectionStatus('connected');
         reconnectCountRef.current = 0;
       };
@@ -53,22 +53,29 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
         }
       };
 
-      ws.onclose = () => {
-        console.log('❌ WebSocket closed');
+      ws.onclose = (event) => {
+        console.log('WebSocket closed', { code: event.code, reason: event.reason, wasClean: event.wasClean });
         setConnectionStatus('disconnected');
 
         // Attempt to reconnect
         if (reconnectCountRef.current < 5) {
           reconnectCountRef.current++;
-          console.log(`🔄 Reconnecting... (${reconnectCountRef.current}/5)`);
+          console.log(`Reconnecting... (${reconnectCountRef.current}/5)`);
           reconnectTimeoutRef.current = setTimeout(() => {
             connect();
           }, 3000);
+        } else {
+          console.error('Maximum reconnection attempts reached');
         }
       };
 
-      ws.onerror = (error) => {
-        console.error('❌ WebSocket error:', error);
+      ws.onerror = (event) => {
+        console.error('WebSocket error occurred:', {
+          type: event.type,
+          target: event.target,
+          readyState: wsRef.current?.readyState,
+          url: HYPERLIQUID_WS_URL
+        });
         setConnectionStatus('error');
       };
 
@@ -82,9 +89,8 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
   const sendJsonMessage = useCallback((payload: any) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(payload));
-    } else {
-      console.warn('WebSocket is not open. Message not sent:', payload);
     }
+    // Silently ignore messages when WebSocket is not open (e.g., during cleanup)
   }, []);
 
   const subscribe = useCallback((handler: MessageHandler) => {
@@ -95,16 +101,27 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    connect();
+    // Only connect if not already connected or connecting
+    if (!wsRef.current || wsRef.current.readyState === WebSocket.CLOSED) {
+      connect();
+    }
 
-    return () => {
+    // Cleanup on page unload (not on component unmount)
+    const handlePageUnload = () => {
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
       }
       if (wsRef.current) {
         wsRef.current.close();
-        wsRef.current = null;
       }
+    };
+
+    window.addEventListener('beforeunload', handlePageUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handlePageUnload);
+      // Don't close the WebSocket on unmount - let it persist
+      // This prevents reconnection loops in React StrictMode (dev) and during hot reloads
     };
   }, [connect]);
 

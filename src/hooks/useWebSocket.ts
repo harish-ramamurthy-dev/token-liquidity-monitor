@@ -32,7 +32,6 @@ export function useWebSocket({
       const ws = new WebSocket(url);
 
       ws.onopen = () => {
-        console.log('WebSocket connected');
         setConnectionStatus('connected');
         reconnectCountRef.current = 0;
         onOpen?.();
@@ -48,14 +47,12 @@ export function useWebSocket({
       };
 
       ws.onclose = () => {
-        console.log('WebSocket closed');
         setConnectionStatus('disconnected');
         onClose?.();
 
         // Attempt to reconnect
         if (reconnectCountRef.current < reconnectAttempts) {
           reconnectCountRef.current++;
-          console.log(`Reconnecting... (${reconnectCountRef.current}/${reconnectAttempts})`);
           reconnectTimeoutRef.current = setTimeout(() => {
             connect();
           }, reconnectInterval);

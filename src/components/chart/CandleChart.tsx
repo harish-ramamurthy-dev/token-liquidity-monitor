@@ -109,8 +109,6 @@ export function CandleChart({ candles, volumes, isLoading, marketId }: CandleCha
       color: v.color,
     }));
     volumeSeriesRef.current.setData(volumeData);
-    
-    console.log(`📊 Chart initialized with ${candles.length} candles`);
   }, [isLoading]); // Only run when loading completes
 
   // Update chart with latest candle in real-time

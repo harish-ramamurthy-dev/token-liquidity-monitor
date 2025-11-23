@@ -13,7 +13,7 @@ export function AppLayout({ children, selectedMarket, onMarketChange }: AppLayou
     <div className="min-h-screen bg-dark-300 flex flex-col">
       <Header />
       <MarketSelector selectedMarket={selectedMarket} onChange={onMarketChange} />
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-auto">
         {children}
       </main>
     </div>

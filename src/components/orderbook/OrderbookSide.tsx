@@ -9,7 +9,7 @@ interface OrderbookSideProps {
 }
 
 export function OrderbookSide({ side, levels, maxTotal, mobile = false }: OrderbookSideProps) {
-  const displayLevels = side === 'bid' ? levels.slice(0, 20) : levels.slice(0, 20);
+  const displayLevels = mobile ? levels.slice(0, 15) : levels.slice(0, 25);
 
   return (
     <div className="flex flex-col">
