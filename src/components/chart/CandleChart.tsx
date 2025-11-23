@@ -47,7 +47,6 @@ export function CandleChart({ candles, volumes, isLoading, marketId }: CandleCha
         },
       });
 
-      // Check if methods exist (for debugging)
       if (typeof chart.addCandlestickSeries !== 'function') {
         console.error('addCandlestickSeries not found. Available methods:', Object.keys(chart));
         return;
@@ -109,7 +108,7 @@ export function CandleChart({ candles, volumes, isLoading, marketId }: CandleCha
       color: v.color,
     }));
     volumeSeriesRef.current.setData(volumeData);
-  }, [isLoading]); // Only run when loading completes
+  }, [isLoading]);
 
   // Update chart with latest candle in real-time
   useEffect(() => {

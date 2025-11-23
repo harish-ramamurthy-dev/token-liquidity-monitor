@@ -1,7 +1,7 @@
 export interface OrderbookLevel {
   price: number;
   size: number;
-  total: number; // cumulative size
+  total: number;
 }
 
 export interface OrderbookData {

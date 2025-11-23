@@ -33,13 +33,11 @@ export async function getMetaAndAssetCtxs() {
 export async function getFundingRate(coin: string) {
   const data = await getMetaAndAssetCtxs();
   
-  // Check response structure
   if (!data || !data[0]) {
     console.error('Invalid response from metaAndAssetCtxs:', data);
     return null;
   }
   
-  // The response is an array where [0] has universe, [1] has assetCtxs
   const meta = data[0];
   const assetCtxs = data[1];
   
@@ -60,7 +58,7 @@ export async function getFundingRate(coin: string) {
   return {
     fundingRate: parseFloat(assetCtx.funding),
     markPrice: markPrice,
-    openInterest: openInterestUsd, // Converted to USD
+    openInterest: openInterestUsd,
     volume24h: parseFloat(assetCtx.dayNtlVlm),
   };
 }

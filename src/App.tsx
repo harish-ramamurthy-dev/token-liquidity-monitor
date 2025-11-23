@@ -14,7 +14,6 @@ function App() {
   const [candleInterval] = useState('1h');
   const [mobileTab, setMobileTab] = useState<'chart' | 'orderbook'>('chart');
 
-  // Fetch data
   const orderbook = useOrderbook(selectedMarket);
   const candles = useCandles(selectedMarket, candleInterval);
   const fundingRate = useFundingRate(selectedMarket);

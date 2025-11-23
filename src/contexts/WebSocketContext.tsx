@@ -90,7 +90,6 @@ export function WebSocketProvider({ children }: { children: ReactNode }) {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(payload));
     }
-    // Silently ignore messages when WebSocket is not open (e.g., during cleanup)
   }, []);
 
   const subscribe = useCallback((handler: MessageHandler) => {

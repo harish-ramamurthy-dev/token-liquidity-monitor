@@ -10,7 +10,7 @@ function parseLevel(level: WsLevel): OrderbookLevel {
   return {
     price: parseFloat(level.px),
     size: parseFloat(level.sz),
-    total: 0, // will be calculated later
+    total: 0,
   };
 }
 

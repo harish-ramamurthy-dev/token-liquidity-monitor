@@ -8,7 +8,7 @@ interface FundingRateData {
   volume24h: number;
 }
 
-const REFRESH_INTERVAL = 30000; // 30 seconds
+const REFRESH_INTERVAL = 30000;
 
 export function useFundingRate(marketId: string) {
   const [data, setData] = useState<FundingRateData | null>(null);

@@ -9,7 +9,7 @@ const MAX_CANDLES = 500;
 
 function parseCandle(candle: Candle): CandleData {
   return {
-    time: candle.t / 1000, // Convert to seconds for TradingView
+    time: candle.t / 1000,
     open: parseFloat(candle.o),
     high: parseFloat(candle.h),
     low: parseFloat(candle.l),
